@@ -142,6 +142,8 @@ app.get('/api/registrations', async (req, res) => {
 // Create Cashfree payment order
 app.post('/api/create-order', async (req, res) => {
   try {
+    console.log("Create order request received:", req.body);
+    
     // Check if required environment variables are set
     if (!process.env.CASHFREE_APP_ID || !process.env.CASHFREE_SECRET_KEY) {
       console.error("Missing Cashfree credentials in environment variables");
@@ -193,9 +195,11 @@ app.post('/api/create-order', async (req, res) => {
   } catch (err) {
     console.error("Create order error:", err.response?.data || err.message);
     console.error("Full error:", err);
+    console.error("Error stack:", err.stack);
     res.status(500).json({ 
       error: err.response?.data || err.message,
-      details: "Check server logs for more information"
+      details: "Check server logs for more information",
+      timestamp: new Date().toISOString()
     });
   }
 });
