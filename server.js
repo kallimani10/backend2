@@ -15,7 +15,9 @@ app.use(cors({
     'https://learn.zerokost.com',
     'https://backend2-epb3.onrender.com',
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept']
 }));
 app.use(express.json());
 
@@ -139,6 +141,15 @@ app.get('/api/registrations', async (req, res) => {
   }
 });
 
+// Handle CORS preflight for create-order
+app.options('/api/create-order', (req, res) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || 'https://learn.zerokost.com');
+  res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(200);
+});
+
 // Create Cashfree payment order
 app.post('/api/create-order', async (req, res) => {
   try {
@@ -191,11 +202,21 @@ app.post('/api/create-order', async (req, res) => {
     console.log('Request headers:', JSON.stringify(headers, null, 2));
     
     const resp = await axios.post(`${cashfreeBase}/orders`, payload, { headers });
+    
+    // Set CORS headers explicitly
+    res.header('Access-Control-Allow-Origin', req.headers.origin || 'https://learn.zerokost.com');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
     res.json({ ...resp.data, order_id: orderId });
   } catch (err) {
     console.error("Create order error:", err.response?.data || err.message);
     console.error("Full error:", err);
     console.error("Error stack:", err.stack);
+    
+    // Set CORS headers for error response too
+    res.header('Access-Control-Allow-Origin', req.headers.origin || 'https://learn.zerokost.com');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
     res.status(500).json({ 
       error: err.response?.data || err.message,
       details: "Check server logs for more information",
