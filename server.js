@@ -17,6 +17,7 @@ app.use(cors({
     'http://localhost:5173',
     'http://localhost:4173',
     'https://zerokostcourses.netlify.app',
+    'https://rococo-kataifi-f5acba.netlify.app',
     'https://backend2-epb3.onrender.com',
   ],
   credentials: true
@@ -168,7 +169,7 @@ app.post('/api/create-order', async (req, res) => {
         customer_phone: phone || "9999999999"
       },
       order_meta: {
-        return_url: `${process.env.CLIENT_ORIGIN || 'https://zerokostcourses.netlify.app'}/?order_id={order_id}`,
+        return_url: `${process.env.CLIENT_ORIGIN || 'https://rococo-kataifi-f5acba.netlify.app'}/?order_id={order_id}`,
         notify_url: `${process.env.BACKEND_URL || 'https://backend2-epb3.onrender.com'}/api/webhook/cashfree`,
         course_data: courseData || {}
       }
