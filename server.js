@@ -11,8 +11,8 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: [
-    process.env.CLIENT_ORIGIN || 'https://rococo-kataifi-f5acba.netlify.app',
-    'https://rococo-kataifi-f5acba.netlify.app',
+    process.env.CLIENT_ORIGIN || 'https://learn.zerokost.com',
+    'https://learn.zerokost.com',
     'https://backend2-epb3.onrender.com',
   ],
   credentials: true
@@ -166,7 +166,7 @@ app.post('/api/create-order', async (req, res) => {
         customer_phone: phone || "9999999999"
       },
       order_meta: {
-        return_url: `${process.env.CLIENT_ORIGIN || 'https://rococo-kataifi-f5acba.netlify.app'}/?order_id={order_id}`,
+        return_url: `${process.env.CLIENT_ORIGIN || 'https://learn.zerokost.com'}/?order_id={order_id}`,
         notify_url: `${process.env.BACKEND_URL || 'https://backend2-epb3.onrender.com'}/api/webhook/cashfree`,
         course_data: courseData || {}
       }
