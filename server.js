@@ -11,12 +11,7 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: [
-    process.env.CLIENT_ORIGIN || 'http://localhost:3000',
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://localhost:5173',
-    'http://localhost:4173',
-    'https://zerokostcourses.netlify.app',
+    process.env.CLIENT_ORIGIN || 'https://rococo-kataifi-f5acba.netlify.app',
     'https://rococo-kataifi-f5acba.netlify.app',
     'https://backend2-epb3.onrender.com',
   ],
@@ -53,7 +48,7 @@ app.get('/api/debug-env', (req, res) => {
     CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || 'Using default',
     GMAIL_USER: process.env.GMAIL_USER ? 'Set' : 'Missing',
     GMAIL_PASS: process.env.GMAIL_PASS ? 'Set' : 'Missing',
-    PORT: process.env.PORT || 'Using default 5000'
+    PORT: process.env.PORT || 'Using default 10000'
   };
   
   res.json({
@@ -419,7 +414,7 @@ app.post('/api/trigger-email', async (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
